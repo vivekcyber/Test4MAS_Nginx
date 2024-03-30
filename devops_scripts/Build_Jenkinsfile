@@ -1,0 +1,32 @@
+#!groovy
+
+def gitinfo = {}
+
+pipeline {
+  agent {
+    label 'built_in'
+   }
+  options {
+    skipDefaultCheckout()
+   }
+  
+  stages {
+     stage('Git checkout') {
+       steps {
+         script {
+
+           gitinfo = checkout([$class: 'GitSCM', branches: [[name: '${GIT_BRANCH_NAME}']], doGenerateSubmoduleConfigurations: false, extensions: [], gittool: 'Default', submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/vivekcyber/Test4MAS_Nginx.git']]])
+           echo "gitInfo: $gitInfo"
+          }
+       }
+     }
+     
+     stage ('Build Image') {
+       steps {
+        script {
+            echo "There is no image build required in this job"
+               }
+             }
+         }
+ }
+   
