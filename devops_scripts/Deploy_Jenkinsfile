@@ -34,7 +34,8 @@ pipeline {
         script {
             sh '''
             cd ${WORKSPACE}/Nginx_K8s_Yaml
-            export KUBECONFIG=/home/centos/kubeconfig.conf
+            cp /tmp/kubeconfig.conf .
+            export KUBECONFIG=${WORKSPACE}/Nginx_K8s_Yaml/kubeconfig.conf
             kubectl apply -f namespace.yaml
             kubectl apply -f deployment.yaml
             kubectl apply -f service.yaml
@@ -51,3 +52,4 @@ pipeline {
         }
     }
 }
+
