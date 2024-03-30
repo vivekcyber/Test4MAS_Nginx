@@ -16,7 +16,7 @@ spec:
       containers:
       - name: nginx
         image: custom_nginx:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
           protocol: TCP
