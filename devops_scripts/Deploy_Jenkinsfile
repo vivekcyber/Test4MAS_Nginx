@@ -21,42 +21,33 @@ pipeline {
        }
      }
      
-     stage ('Build Image') {
+     stage ('Download Package from Artifactory') {
        steps {
         script {
-            echo "There is no image build required in this job"
+            echo "This is a test job, no artifactory installed"
                }
              }
          }
 
-     stage ('Zip and uplaod to Artifactory') {
+     stage ('Deploy package') {
        steps {
         script {
             sh '''
             cd ${WORKSPACE}/Nginx_K8s_Yaml
-            zip -r nginx_yaml.zip *
+            export KUBECONFIG=/home/centos/kubeconfig.conf
+            kubectl apply -f namespace.yaml
+            kubectl apply -f deployment.yaml
+            kubectl apply -f service.yaml
          '''
-          echo "Section to upload to artifactory (Jfrog or Nexus) is not added since there is no artifactory set"
             }
          }
       }
     
-    stage ('Pull image & Scan') {
-     steps {
-      script {
-        sh '''
-           docker pull nginx:latest
-           trivy image nginx:latest
-
-         '''
-         }
-      }
    }
- }
-      post { 
+
+     post { 
         always { 
             cleanWs()
         }
     }
-
 }
