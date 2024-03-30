@@ -26,12 +26,13 @@ pipeline {
         script {
             echo "Custom docker image built in progress. docker push to artifact repository is ignored for now."
                sh '''
-                   docker build . -t custom_nginx:latest     
-               }
-             }
+                   docker build -f devops_scripts/dockerfile . -t custom_nginx:latest     
+                  '''               
+              }
+            }
          }
 
-     stage ('Zip and uplaod to Artifactory') {
+     stage ('Zip and upload to Artifact repository') {
        steps {
         script {
             sh '''
@@ -43,11 +44,10 @@ pipeline {
          }
       }
     
-    stage ('Pull image & Scan') {
+    stage ('Scan Image') {
      steps {
       script {
         sh '''
-           docker pull custom_nginx:latest
            trivy image custom_nginx:latest
 
          '''
