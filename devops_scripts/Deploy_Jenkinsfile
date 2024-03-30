@@ -21,10 +21,11 @@ pipeline {
        }
      }
      
-     stage ('Download Package from Artifactory') {
+     stage ('Download image from Dockerhub') {
        steps {
         script {
-            echo "This is a test job, no artifactory installed"
+            echo "This is a test job, no artifactory installed. Yaml files are directly cloned from bitbucket"
+              sh "docker pull vivek398951/custom-nginx:latest"
                }
              }
          }
